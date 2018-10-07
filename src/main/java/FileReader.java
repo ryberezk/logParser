@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class FileReader {
 
-    //dirtyTina
 
     public void fileReader(String dir, String key) throws FileNotFoundException {
         File file = new File(dir);
