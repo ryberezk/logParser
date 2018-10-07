@@ -40,7 +40,9 @@ public class FirstFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 FileReader f = new FileReader ();
                 try {
-                    f.fileReader(fileDir,textForSearch.getText());
+                    //f.fileReader(fileDir,textForSearch.getText());
+                    NewFileReader nfr = new NewFileReader (fileDir);
+                    nfr.read();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
