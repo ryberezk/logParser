@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 
 public class FirstFrame extends JFrame {
@@ -38,14 +37,8 @@ public class FirstFrame extends JFrame {
         buttonStartSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileReader f = new FileReader ();
-                try {
-                    //f.fileReader(fileDir,textForSearch.getText());
-                    NewFileReader nfr = new NewFileReader (fileDir);
-                    nfr.read();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                MyFileReader fileReader3 = new MyFileReader();
+                fileReader3.searchLineForWord(fileDir,"<custinqrq>");
             }
         });
 
