@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.File;
 
 
@@ -21,6 +20,15 @@ public class FirstFrame extends JFrame {
 
         JTextPane textForSearch = new JTextPane ();
 
+        JCheckBox custinqrq = new JCheckBox("CustinqRQ");
+        JCheckBox custinqrs = new JCheckBox("CustinqRS");
+
+        custinqrq.setMnemonic(KeyEvent.VK_G);
+        custinqrq.setSelected(true);
+
+        custinqrs.setMnemonic(KeyEvent.VK_G);
+        custinqrs.setSelected(false);
+
 
         chooseFileButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -38,7 +46,7 @@ public class FirstFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MyFileReader fileReader3 = new MyFileReader();
-                fileReader3.searchLineForWord(fileDir,"<custinqrq>");
+                fileReader3.searchRequests(fileDir,"<custinqrq>");
             }
         });
 
@@ -49,6 +57,8 @@ public class FirstFrame extends JFrame {
 
         Box baseBox = Box.createVerticalBox();
         baseBox.add(box);
+        baseBox.add(custinqrq);
+        baseBox.add(custinqrs);
         baseBox.add(textForSearch);
         baseBox.add(Box.createVerticalStrut(10));
         baseBox.add(buttonStartSearch);
