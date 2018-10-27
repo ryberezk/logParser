@@ -21,11 +21,16 @@ public class MyFileReader {
     Map<String, String> hashMap = new HashMap<>();
 
 
-    public List searchRequests(String path, String word) {
+    public List searchRequests(String path, SearchAttr attr) {
+        String word;
         hashMap.put("<custinqrq>", "</custinqrq>");
         hashMap.put("<custinqrs>", "</custinqrs>");
-        words.add(word);
-        words.add("<custinqrs>");
+        if (attr.custinqrq) {
+            words.add("<custinqrq>");
+        }
+        if (attr.custinqrs) {
+            words.add("<custinqrs>");
+        }
 
         FileReader fr = getFileReader(path);
         BufferedReader bR = getBufferedReader(fr);
@@ -39,11 +44,11 @@ public class MyFileReader {
 
                     if (lineLC.contains(word)) {
                         wordPosStart = lineLC.lastIndexOf(word);
-                        currLines.add(currLine -1);
+                        currLines.add(currLine - 1);
                         while ((line = bR.readLine()) != null) {
                             if (lineLC.contains(hashMap.get(word))) {
                                 wordPosEnd = lineLC.indexOf(hashMap.get(word));
-                                System.out.println(lineLC.substring(wordPosStart,wordPosEnd)+hashMap.get(word));
+                                System.out.println(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word));
 
                                 break;
                             }
@@ -53,6 +58,7 @@ public class MyFileReader {
             }
             bR.close();
             fr.close();
+            words.clear();
         } catch (IOException e) {
             System.out.println("Input/Output error: " + e.toString());
         }

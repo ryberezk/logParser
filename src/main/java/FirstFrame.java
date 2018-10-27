@@ -7,8 +7,9 @@ import java.io.File;
 public class FirstFrame extends JFrame {
 
     String fileDir;
+    SearchAttr searchAttr = new SearchAttr();
 
-    public FirstFrame()  {
+    public FirstFrame() {
         super("Поиск логов");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -18,13 +19,13 @@ public class FirstFrame extends JFrame {
 
         JButton buttonStartSearch = new JButton("Поиск");
 
-        JTextPane textForSearch = new JTextPane ();
+        JTextPane textForSearch = new JTextPane();
 
         JCheckBox custinqrq = new JCheckBox("CustinqRQ");
         JCheckBox custinqrs = new JCheckBox("CustinqRS");
 
         custinqrq.setMnemonic(KeyEvent.VK_G);
-        custinqrq.setSelected(true);
+        custinqrq.setSelected(false);
 
         custinqrs.setMnemonic(KeyEvent.VK_G);
         custinqrs.setSelected(false);
@@ -42,11 +43,23 @@ public class FirstFrame extends JFrame {
             }
         });
 
+        custinqrq.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchAttr.custinqrq = custinqrq.isSelected();
+            }
+        });
+
+        custinqrs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                searchAttr.custinqrs = custinqrs.isSelected();
+            }
+        });
+
         buttonStartSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MyFileReader fileReader3 = new MyFileReader();
-                fileReader3.searchRequests(fileDir,"<custinqrq>");
+                fileReader3.searchRequests(fileDir, searchAttr);
             }
         });
 
@@ -69,4 +82,5 @@ public class FirstFrame extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-    }}
+    }
+}
