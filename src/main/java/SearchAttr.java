@@ -1,5 +1,15 @@
 public class SearchAttr {
     boolean custinqrq;
+    boolean custinqrs;
+    String searchWord;
+
+    public String getSearchWord() {
+        return searchWord;
+    }
+
+    public void setSearchWord(String searchWord) {
+        this.searchWord = searchWord;
+    }
 
     public boolean isCustinqrq() {
         return custinqrq;
@@ -17,5 +27,4 @@ public class SearchAttr {
         this.custinqrs = custinqrs;
     }
 
-    boolean custinqrs;
 }

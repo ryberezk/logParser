@@ -18,8 +18,9 @@ public class FirstFrame extends JFrame {
         JButton chooseFileButton = new JButton("Выбор файла логов");
 
         JButton buttonStartSearch = new JButton("Поиск");
+        //buttonStartSearch.setEnabled(false);
 
-        JTextPane textForSearch = new JTextPane();
+        JTextField searchWord = new JTextField();
 
         JCheckBox custinqrq = new JCheckBox("CustinqRQ");
         JCheckBox custinqrs = new JCheckBox("CustinqRS");
@@ -43,6 +44,12 @@ public class FirstFrame extends JFrame {
             }
         });
 
+//        searchWord.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                buttonStartSearch.setEnabled(true);
+//            }
+//        });
+
         custinqrq.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 searchAttr.custinqrq = custinqrq.isSelected();
@@ -58,6 +65,7 @@ public class FirstFrame extends JFrame {
         buttonStartSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                searchAttr.searchWord = searchWord.getText().toLowerCase();
                 MyFileReader fileReader3 = new MyFileReader();
                 fileReader3.searchRequests(fileDir, searchAttr);
             }
@@ -72,7 +80,7 @@ public class FirstFrame extends JFrame {
         baseBox.add(box);
         baseBox.add(custinqrq);
         baseBox.add(custinqrs);
-        baseBox.add(textForSearch);
+        baseBox.add(searchWord);
         baseBox.add(Box.createVerticalStrut(10));
         baseBox.add(buttonStartSearch);
 

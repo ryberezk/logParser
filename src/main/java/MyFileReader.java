@@ -48,7 +48,9 @@ public class MyFileReader {
                         while ((line = bR.readLine()) != null) {
                             if (lineLC.contains(hashMap.get(word))) {
                                 wordPosEnd = lineLC.indexOf(hashMap.get(word));
-                                System.out.println(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word));
+                                if (lineLC.contains(attr.searchWord)) {
+                                    System.out.println(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word));
+                                }
 
                                 break;
                             }
