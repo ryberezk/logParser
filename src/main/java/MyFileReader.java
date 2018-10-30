@@ -1,8 +1,14 @@
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class MyFileReader {
 
@@ -49,9 +55,8 @@ public class MyFileReader {
                             if (lineLC.contains(hashMap.get(word))) {
                                 wordPosEnd = lineLC.indexOf(hashMap.get(word));
                                 if (lineLC.contains(attr.searchWord)) {
-                                    System.out.println(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word));
+                                    System.out.println(getTime(lineLC) + getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
                                 }
-
                                 break;
                             }
                         }
@@ -63,8 +68,26 @@ public class MyFileReader {
             words.clear();
         } catch (IOException e) {
             System.out.println("Input/Output error: " + e.toString());
+        } catch (ParseException | SAXException | ParserConfigurationException e) {
+            e.printStackTrace();
         }
         return currLines;
+    }
+
+    public String getTime(String line) throws ParseException {
+        if (line.contains("[")) {
+            String dateAndTime = line.substring(line.indexOf("[")+1, (line.indexOf("]") -3));
+            SimpleDateFormat parser = new SimpleDateFormat("d/m/yy HH:mm:ss:S");
+            Date date = parser.parse(dateAndTime);
+            return date.toString();
+        } return "Дата запроса не найдена";
+    }
+
+    public Document getXml (String line) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder;
+            builder = factory.newDocumentBuilder();
+            return builder.parse(new InputSource(new StringReader(line)));
     }
 
     private BufferedReader getBufferedReader(FileReader fileReader) {
@@ -82,38 +105,6 @@ public class MyFileReader {
             e.printStackTrace();
         }
         return fileReader;
-    }
-
-    // читаем файл с определенного символа
-    public String readFrom(int numberSymbol, String path) throws IOException {
-
-        file = new RandomAccessFile(path, "r");
-        String res = "";
-        file.seek(numberSymbol);
-        int b = file.read();
-
-        while (b != -1) {
-            res = res + (char) b;
-
-            b = file.read();
-        }
-        file.close();
-
-        return res;
-    }
-
-    // запись в файл
-    public void write(String st) throws IOException {
-        // открываем файл для записи
-        // для этого указываем модификатор rw (read & write)
-        // что позволит открыть файл и записать его
-        file = new RandomAccessFile(path, "rw");
-
-        // записываем строку переведенную в биты
-        file.write(st.getBytes());
-
-        // закрываем файл, после чего данные записываемые данные попадут в файл
-        file.close();
     }
 }
 

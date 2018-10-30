@@ -13,7 +13,7 @@ public class FirstFrame extends JFrame {
         super("Поиск логов");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final JLabel label = new JLabel("Выбранный файл");
+        final JLabel label = new JLabel("Файл не выбран");
 
         JButton chooseFileButton = new JButton("Выбор файла логов");
 
@@ -66,8 +66,8 @@ public class FirstFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchAttr.searchWord = searchWord.getText().toLowerCase();
-                MyFileReader fileReader3 = new MyFileReader();
-                fileReader3.searchRequests(fileDir, searchAttr);
+                MyFileReader fileReader = new MyFileReader();
+                fileReader.searchRequests(fileDir, searchAttr);
             }
         });
 
