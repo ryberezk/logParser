@@ -1,6 +1,9 @@
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,9 +28,10 @@ public class MyFileReader {
 
     List<Integer> currLines = new ArrayList<Integer>();
     Map<String, String> hashMap = new HashMap<>();
-
+    Map<Date,Element> results = new HashMap <Date,Element> ();
 
     public List searchRequests(String path, SearchAttr attr) {
+
         String word;
         hashMap.put("<custinqrq>", "</custinqrq>");
         hashMap.put("<custinqrs>", "</custinqrs>");
@@ -55,7 +59,8 @@ public class MyFileReader {
                             if (lineLC.contains(hashMap.get(word))) {
                                 wordPosEnd = lineLC.indexOf(hashMap.get(word));
                                 if (lineLC.contains(attr.searchWord)) {
-                                    System.out.println(getTime(lineLC) + getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
+                                    results.put(getTime(lineLC),getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
+                                    //System.out.println(getTime(lineLC) + getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
                                 }
                                 break;
                             }
@@ -68,35 +73,54 @@ public class MyFileReader {
             words.clear();
         } catch (IOException e) {
             System.out.println("Input/Output error: " + e.toString());
-        } catch (ParseException | SAXException | ParserConfigurationException e) {
+        } catch (ParseException | SAXException e) {
             e.printStackTrace();
         }
         return currLines;
     }
 
-    public String getTime(String line) throws ParseException {
+    public Date getTime(String line) throws ParseException {
         if (line.contains("[")) {
             String dateAndTime = line.substring(line.indexOf("[")+1, (line.indexOf("]") -3));
             SimpleDateFormat parser = new SimpleDateFormat("d/m/yy HH:mm:ss:S");
             Date date = parser.parse(dateAndTime);
-            return date.toString();
-        } return "Дата запроса не найдена";
+            return date;
+        } return null;
     }
 
-    public Document getXml (String line) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder;
-            builder = factory.newDocumentBuilder();
-            return builder.parse(new InputSource(new StringReader(line)));
+    public Element getXml (String line) throws IOException, SAXException {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder;
+            try
+            {
+                builder = factory.newDocumentBuilder();
+                Document doc = builder.parse( new InputSource( new StringReader( line ) ) );
+                return doc.getDocumentElement();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
     }
 
-    private BufferedReader getBufferedReader(FileReader fileReader) {
+    public String getStringFromXmlByTagName (String tagName, Element element) {
+        NodeList list = element.getElementsByTagName(tagName);
+        if (list != null && list.getLength() > 0) {
+            NodeList subList = list.item(0).getChildNodes();
+
+            if (subList != null && subList.getLength() > 0) {
+                return subList.item(0).getNodeValue();
+            }
+        }
+        return null;
+    }
+
+    public BufferedReader getBufferedReader(FileReader fileReader) {
         BufferedReader br = null;
         br = new BufferedReader(fileReader);
         return br;
     }
 
-    private FileReader getFileReader(String path) {
+    public FileReader getFileReader(String path) {
         FileReader fileReader = null;
         try {
             File f = new File(path);
