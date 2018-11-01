@@ -1,30 +1,25 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class SearchAttr {
-    boolean custinqrq;
-    boolean custinqrs;
+    boolean custInqRq;
+    boolean checkInStopListRq;
     String searchWord;
 
-    public String getSearchWord() {
-        return searchWord;
+    Map<String, String> hashMap = new HashMap<>();
+
+    public Map<String, String> getHashMap() {
+        return hashMap;
     }
 
-    public void setSearchWord(String searchWord) {
-        this.searchWord = searchWord;
-    }
+    public void getListOfServicesForSearch () {
 
-    public boolean isCustinqrq() {
-        return custinqrq;
-    }
-
-    public boolean isCustinqrs() {
-        return custinqrs;
-    }
-
-    public void setCustinqrq(boolean custinqrq) {
-        this.custinqrq = custinqrq;
-    }
-
-    public void setCustinqrs(boolean custinqrs) {
-        this.custinqrs = custinqrs;
+        if (this.custInqRq){
+            hashMap.put("<custinqrq>", "</custinqrq>");
+        }
+        if (this.checkInStopListRq){
+            hashMap.put("<checkinstoplistrq>", "</checkinstoplistrq>");
+        }
     }
 
 }

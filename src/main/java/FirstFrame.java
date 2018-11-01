@@ -22,14 +22,14 @@ public class FirstFrame extends JFrame {
 
         JTextField searchWord = new JTextField();
 
-        JCheckBox custinqrq = new JCheckBox("CustinqRQ");
-        JCheckBox custinqrs = new JCheckBox("CustinqRS");
+        JCheckBox custInqRq = new JCheckBox("CustinqRQ");
+        JCheckBox checkInStopListRq = new JCheckBox("CheckInStopListRq");
 
-        custinqrq.setMnemonic(KeyEvent.VK_G);
-        custinqrq.setSelected(false);
+        custInqRq.setMnemonic(KeyEvent.VK_G);
+        custInqRq.setSelected(false);
 
-        custinqrs.setMnemonic(KeyEvent.VK_G);
-        custinqrs.setSelected(false);
+        checkInStopListRq.setMnemonic(KeyEvent.VK_G);
+        checkInStopListRq.setSelected(false);
 
 
         chooseFileButton.addActionListener(new ActionListener() {
@@ -50,15 +50,15 @@ public class FirstFrame extends JFrame {
 //            }
 //        });
 
-        custinqrq.addActionListener(new ActionListener() {
+        custInqRq.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                searchAttr.custinqrq = custinqrq.isSelected();
+                searchAttr.custInqRq = custInqRq.isSelected();
             }
         });
 
-        custinqrs.addActionListener(new ActionListener() {
+        checkInStopListRq.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                searchAttr.custinqrs = custinqrs.isSelected();
+                searchAttr.checkInStopListRq = checkInStopListRq.isSelected();
             }
         });
 
@@ -78,8 +78,8 @@ public class FirstFrame extends JFrame {
 
         Box baseBox = Box.createVerticalBox();
         baseBox.add(box);
-        baseBox.add(custinqrq);
-        baseBox.add(custinqrs);
+        baseBox.add(custInqRq);
+        baseBox.add(checkInStopListRq);
         baseBox.add(searchWord);
         baseBox.add(Box.createVerticalStrut(10));
         baseBox.add(buttonStartSearch);

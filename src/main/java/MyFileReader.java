@@ -7,7 +7,6 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,16 +30,11 @@ public class MyFileReader {
     Map<Date,Element> results = new HashMap <Date,Element> ();
 
     public List searchRequests(String path, SearchAttr attr) {
-
         String word;
-        hashMap.put("<custinqrq>", "</custinqrq>");
-        hashMap.put("<custinqrs>", "</custinqrs>");
-        if (attr.custinqrq) {
-            words.add("<custinqrq>");
-        }
-        if (attr.custinqrs) {
-            words.add("<custinqrs>");
-        }
+
+        attr.getListOfServicesForSearch();
+        words = getWordsForSearch(attr);
+        Map<String, String> hashMap = attr.hashMap;
 
         FileReader fr = getFileReader(path);
         BufferedReader bR = getBufferedReader(fr);
@@ -60,7 +54,7 @@ public class MyFileReader {
                                 wordPosEnd = lineLC.indexOf(hashMap.get(word));
                                 if (lineLC.contains(attr.searchWord)) {
                                     results.put(getTime(lineLC),getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
-                                    //System.out.println(getTime(lineLC) + getXml(lineLC.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
+                                    System.out.println(getTime(lineLC));
                                 }
                                 break;
                             }
@@ -77,6 +71,16 @@ public class MyFileReader {
             e.printStackTrace();
         }
         return currLines;
+    }
+
+    public ArrayList<String> getWordsForSearch (SearchAttr attr) {
+        ArrayList<String> words = new ArrayList<String>();
+        attr.getListOfServicesForSearch();
+
+        for (Map.Entry<String, String> entry : attr.hashMap.entrySet()) {
+            words.add(entry.getKey());
+        }
+        return words;
     }
 
     public Date getTime(String line) throws ParseException {
