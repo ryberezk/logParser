@@ -6,7 +6,7 @@ public class SearchAttr {
     boolean checkInStopListRq;
     String searchWord;
 
-    Map<String, String> hashMap = new HashMap<>();
+    HashMap<String, String> hashMap = new HashMap<>();
 
     public Map<String, String> getHashMap() {
         return hashMap;
@@ -16,9 +16,11 @@ public class SearchAttr {
 
         if (this.custInqRq){
             hashMap.put("<custinqrq>", "</custinqrq>");
+            hashMap.put("<custinqrs>", "</custinqrs>");
         }
         if (this.checkInStopListRq){
             hashMap.put("<checkinstoplistrq>", "</checkinstoplistrq>");
+            hashMap.put("<checkinstoplistrs>", "</checkinstoplistrs>");
         }
     }
 
