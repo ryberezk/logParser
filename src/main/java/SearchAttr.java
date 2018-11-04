@@ -4,7 +4,10 @@ import java.util.Map;
 public class SearchAttr {
     boolean custInqRq;
     boolean checkInStopListRq;
-    String searchWord;
+
+    String seria;
+    String number;
+    String surname;
 
     HashMap<String, String> hashMap = new HashMap<>();
 

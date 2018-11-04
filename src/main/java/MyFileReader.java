@@ -7,6 +7,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.util.*;
 
@@ -17,16 +18,16 @@ public class MyFileReader {
     static int currLine = 0;
     static int wordPosStart = 0;
     static int wordPosEnd = 0;
+    String xmlConstant = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 
 
-    List<Element> results = new ArrayList<Element>();
-    Map<String, String> hashMap = new HashMap<>();
-    ArrayList<String> words;
+    HashMap<Document, String> results = new HashMap<>();
 
-    public List<Element> searchRequests(String path, SearchAttr attr) {
+
+    public HashMap<Document,String> getServiceMessages(String path, SearchAttr attr) {
 
         attr.getListOfServicesForSearch();
-        words = getWordsForSearch(attr);
+        ArrayList<String> words = getWordsForSearch(attr);
         Map<String, String> hashMap = attr.hashMap;
 
         FileReader fr = getFileReader(path);
@@ -44,8 +45,8 @@ public class MyFileReader {
                         while ((line = bR.readLine()) != null) {
                             if (currentLine.contains(hashMap.get(word))) {
                                 wordPosEnd = currentLine.indexOf(hashMap.get(word));
-                                    results.add(getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word)));
-                                    System.out.println(getStringFromXmlByTagName("rquid",getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word))));
+                                    results.put(getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word)), word);
+                                    //System.out.println(getStringFromXmlByTagName("rquid",getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word))) + word);
                                 break;
                             }
                         }
@@ -57,7 +58,7 @@ public class MyFileReader {
             words.clear();
         } catch (IOException e) {
             System.out.println("Input/Output error: " + e.toString());
-        } catch (SAXException e) {
+        } catch (SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
         return results;
@@ -83,18 +84,15 @@ public class MyFileReader {
 //        } return null;
 //    }
 
-    public Element getXml (String line) throws IOException, SAXException {
+    public Document getXml (String line) throws IOException, SAXException, ParserConfigurationException {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder;
-            try
-            {
-                builder = factory.newDocumentBuilder();
-                Document doc = builder.parse( new InputSource( new StringReader( line ) ) );
-                return doc.getDocumentElement();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+        Document document = builder.parse( new InputSource( new StringReader(line ) ));
+        document.getDocumentElement().normalize();
+
+        return document;
+
     }
 
     public String getStringFromXmlByTagName (String tagName, Element element) {

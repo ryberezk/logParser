@@ -20,7 +20,9 @@ public class FirstFrame extends JFrame {
         JButton buttonStartSearch = new JButton("Поиск");
         //buttonStartSearch.setEnabled(false);
 
-        JTextField searchWord = new JTextField();
+        JTextField number = new JTextField();
+        JTextField seria = new JTextField();
+        JTextField surname = new JTextField();
 
         JCheckBox custInqRq = new JCheckBox("CustinqRQ");
         JCheckBox checkInStopListRq = new JCheckBox("CheckInStopListRq");
@@ -65,9 +67,13 @@ public class FirstFrame extends JFrame {
         buttonStartSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchAttr.searchWord = searchWord.getText().toLowerCase();
+                searchAttr.number = number.getText().toLowerCase();
+                searchAttr.seria = seria.getText().toLowerCase();
+                searchAttr.surname = surname.getText().toLowerCase();
+
                 MyFileReader fileReader = new MyFileReader();
-                fileReader.searchRequests(fileDir, searchAttr);
+                ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, searchAttr));
+                result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,"<custinqrq>"),searchAttr);
             }
         });
 
@@ -80,7 +86,9 @@ public class FirstFrame extends JFrame {
         baseBox.add(box);
         baseBox.add(custInqRq);
         baseBox.add(checkInStopListRq);
-        baseBox.add(searchWord);
+        baseBox.add(number);
+        baseBox.add(seria);
+        baseBox.add(surname);
         baseBox.add(Box.createVerticalStrut(10));
         baseBox.add(buttonStartSearch);
 
