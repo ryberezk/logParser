@@ -9,11 +9,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MyFileReader {
 
-    static String line;
+    static String line = null;
     static String currentLine = null;
     static int currLine = 0;
     static int wordPosStart = 0;
@@ -45,8 +47,8 @@ public class MyFileReader {
                         while ((line = bR.readLine()) != null) {
                             if (currentLine.contains(hashMap.get(word))) {
                                 wordPosEnd = currentLine.indexOf(hashMap.get(word));
-                                    results.put(getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word)), word);
-                                    //System.out.println(getStringFromXmlByTagName("rquid",getXml(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word))) + word);
+
+                                 results.put(getXmlDocument(currentLine.substring(wordPosStart, wordPosEnd) + hashMap.get(word)), word);
                                 break;
                             }
                         }
@@ -74,17 +76,18 @@ public class MyFileReader {
         return words;
     }
 
-    // Пока комменчу. Потом будуиспользовать для сервисов без даты (типо открытия сессии)
-//    public Date getTime(String line) throws ParseException {
-//        if (line.contains("[")) {
-//            String dateAndTime = line.substring(line.indexOf("[")+1, (line.indexOf("]") -3));
-//            SimpleDateFormat parser = new SimpleDateFormat("d/m/yy HH:mm:ss:S");
-//            Date date = parser.parse(dateAndTime);
-//            return date;
-//        } return null;
-//    }
 
-    public Document getXml (String line) throws IOException, SAXException, ParserConfigurationException {
+    public Date getTime(String line) throws ParseException {
+        if (line.contains("MSK]")) {
+            String dateAndTime = line.substring(line.indexOf("[")+1, (line.indexOf("]") -3));
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat parser = new SimpleDateFormat("d/m/yy HH:mm:ss:S");
+            Date date = parser.parse(dateAndTime);
+            return date;
+        } return null;
+    }
+
+    public Document getXmlDocument(String line) throws IOException, SAXException, ParserConfigurationException {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 

@@ -73,7 +73,8 @@ public class FirstFrame extends JFrame {
 
                 MyFileReader fileReader = new MyFileReader();
                 ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, searchAttr));
-                result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,"<custinqrq>"),searchAttr);
+
+                result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,searchAttr),searchAttr);
             }
         });
 

@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SearchAttr {
@@ -11,9 +13,9 @@ public class SearchAttr {
 
     HashMap<String, String> hashMap = new HashMap<>();
 
-    public Map<String, String> getHashMap() {
-        return hashMap;
-    }
+//    public Map<String, String> getHashMap() {
+//        return hashMap;
+//    }
 
     public void getListOfServicesForSearch () {
 
@@ -25,6 +27,11 @@ public class SearchAttr {
             hashMap.put("<checkinstoplistrq>", "</checkinstoplistrq>");
             hashMap.put("<checkinstoplistrs>", "</checkinstoplistrs>");
         }
+    }
+
+    public void getBooleanValue () {
+        List<Boolean> values = new ArrayList<>();
+
     }
 
 }
