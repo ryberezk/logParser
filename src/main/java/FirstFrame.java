@@ -74,6 +74,7 @@ public class FirstFrame extends JFrame {
                 MyFileReader fileReader = new MyFileReader();
                 ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, searchAttr));
 
+                //Нужно это вынести внутрь getServiceMessages
                 result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,searchAttr),searchAttr);
             }
         });
