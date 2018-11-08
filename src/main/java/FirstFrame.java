@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.transform.TransformerException;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -73,9 +74,16 @@ public class FirstFrame extends JFrame {
 
                 MyFileReader fileReader = new MyFileReader();
                 ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, searchAttr));
+                ServiceHandler serviceHandler = new ServiceHandler();
+
+                try {
+                    result.resultForMap(serviceHandler.getCustInq(result.hashMap,searchAttr));
+                } catch (TransformerException e1) {
+                    e1.printStackTrace();
+                }
 
                 //Нужно это вынести внутрь getServiceMessages
-                result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,searchAttr),searchAttr);
+                //result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,searchAttr),searchAttr);
             }
         });
 
