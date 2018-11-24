@@ -83,7 +83,7 @@ public class MyFileReader {
         if (line.contains("msk]")) {
             String dateAndTime = line.substring(line.indexOf("[") + 1, (line.indexOf("]") - 3));
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat parser = new SimpleDateFormat("dd/mm/yy HH:mm:ss:S");
+            SimpleDateFormat parser = new SimpleDateFormat("dd/M/yy HH:mm:ss:S");
             Date date = parser.parse(dateAndTime);
             return date;
         }
