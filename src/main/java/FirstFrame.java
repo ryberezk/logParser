@@ -21,7 +21,7 @@ public class FirstFrame extends JFrame {
         JButton buttonStartSearch = new JButton("Поиск");
         //buttonStartSearch.setEnabled(false);
 
-        JTextField number = new JTextField();
+        JTextField number = new JTextField("777771");
         JTextField seria = new JTextField();
         JTextField surname = new JTextField();
 

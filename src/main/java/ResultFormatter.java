@@ -11,9 +11,9 @@ import java.util.*;
 
 public class ResultFormatter {
 
-    Map<Document, String> hashMap;
+    Map<Document, ArrayList> hashMap;
 
-    ResultFormatter(HashMap<Document, String> hashMap) {
+    public ResultFormatter(HashMap<Document, ArrayList> hashMap) {
         this.hashMap = hashMap;
     }
 
