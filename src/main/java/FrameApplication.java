@@ -1,3 +1,9 @@
+import reader.MyFileReader;
+import servicesHandlers.ServiceHandler;
+import transferAttributes.RequestAttributes;
+import transferAttributes.ResponseData;
+import transferAttributes.ResultFormatter;
+
 import javax.swing.*;
 import javax.xml.transform.TransformerException;
 import java.awt.*;
@@ -5,12 +11,13 @@ import java.awt.event.*;
 import java.io.File;
 
 
-public class FirstFrame extends JFrame {
+public class FrameApplication extends JFrame {
 
     String fileDir;
-    SearchAttr searchAttr = new SearchAttr();
+    RequestAttributes requestAttributes = new RequestAttributes();
+    ResponseData responseData = new ResponseData();
 
-    public FirstFrame() {
+    public FrameApplication() {
         super("Поиск логов");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -19,7 +26,6 @@ public class FirstFrame extends JFrame {
         JButton chooseFileButton = new JButton("Выбор файла логов");
 
         JButton buttonStartSearch = new JButton("Поиск");
-        //buttonStartSearch.setEnabled(false);
 
         JTextField number = new JTextField("777771");
         JTextField seria = new JTextField();
@@ -47,43 +53,35 @@ public class FirstFrame extends JFrame {
             }
         });
 
-//        searchWord.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                buttonStartSearch.setEnabled(true);
-//            }
-//        });
 
         custInqRq.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                searchAttr.custInqRq = custInqRq.isSelected();
+                requestAttributes.custInqRq = custInqRq.isSelected();
             }
         });
 
         checkInStopListRq.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                searchAttr.checkInStopListRq = checkInStopListRq.isSelected();
+                requestAttributes.checkInStopListRq = checkInStopListRq.isSelected();
             }
         });
 
         buttonStartSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                searchAttr.number = number.getText().toLowerCase();
-                searchAttr.seria = seria.getText().toLowerCase();
-                searchAttr.surname = surname.getText().toLowerCase();
+                requestAttributes.number = number.getText().toLowerCase();
+                requestAttributes.seria = seria.getText().toLowerCase();
+                requestAttributes.surname = surname.getText().toLowerCase();
 
                 MyFileReader fileReader = new MyFileReader();
-                ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, searchAttr));
+                ResultFormatter result = new ResultFormatter(fileReader.getServiceMessages(fileDir, requestAttributes));
                 ServiceHandler serviceHandler = new ServiceHandler();
 
                 try {
-                    result.resultForMap(serviceHandler.getCustInq(result.hashMap,searchAttr));
+                    result.result(serviceHandler.getCustInq(result.hashMap, requestAttributes, responseData));
                 } catch (TransformerException e1) {
                     e1.printStackTrace();
                 }
-
-                //Нужно это вынести внутрь getServiceMessages
-                //result.getCustInqOfSearch(result.getCurrentArray(result.hashMap,searchAttr),searchAttr);
             }
         });
 

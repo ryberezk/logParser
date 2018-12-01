@@ -1,8 +1,9 @@
+package reader;
+
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import transferAttributes.RequestAttributes;
 
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,13 +21,10 @@ public class MyFileReader {
     static int currLine = 0;
     static int wordPosStart = 0;
     static int wordPosEnd = 0;
-    String xmlConstant = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
-
 
     HashMap<Document, ArrayList> results = new HashMap<>();
 
-
-    public HashMap<Document, ArrayList> getServiceMessages(String path, SearchAttr attr) {
+    public HashMap<Document, ArrayList> getServiceMessages(String path, RequestAttributes attr) {
 
         attr.getListOfServicesForSearch();
         ArrayList<String> words = getWordsForSearch(attr);
@@ -68,7 +66,7 @@ public class MyFileReader {
         return results;
     }
 
-    public ArrayList<String> getWordsForSearch(SearchAttr attr) {
+    public ArrayList<String> getWordsForSearch(RequestAttributes attr) {
         ArrayList<String> words = new ArrayList<String>();
         attr.getListOfServicesForSearch();
         for (Map.Entry<String, String> entry : attr.hashMap.entrySet()) {
@@ -92,12 +90,9 @@ public class MyFileReader {
     public Document getXmlDocument(String line) throws IOException, SAXException, ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-
         Document document = builder.parse(new InputSource(new StringReader(line)));
         document.getDocumentElement().normalize();
-
         return document;
-
     }
 
     public BufferedReader getBufferedReader(FileReader fileReader) {
